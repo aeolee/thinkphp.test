@@ -30,4 +30,23 @@ class Users extends Migrator
     {
 
     }
+
+    public function up()
+    {
+        //
+        $table = $this->table('users');
+        $table->addColumn('name','string')
+            ->addColumn('email','string')
+            ->addColumn('password','string')
+            ->addColumn('avatar','string',['null'=>true,'default'=>NULL,'comment'=>'用户头像'])
+            ->addColumn('god','boolean',['default'=>FALSE,'comment'=>'管理员'])
+            ->addTimestamps('created-at','updated_at','deleted_at')
+            ->addIndex('email',['unique'=>true])
+            ->addIndex('god')
+            ->create();
+    }
+
+    public function down(){
+        $this->dropTable('users');
+    }
 }
